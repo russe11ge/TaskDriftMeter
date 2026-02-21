@@ -21,25 +21,30 @@
       margin-top:2px;
     }
 
-    .groupsWrap{
-      margin-top: 12px;
-      display:grid;
-      gap:12px;
-      flex:1;
-      min-height:0;
-      overflow:auto;
-      padding-bottom: 8px;
-    }
+.groupsWrap{
+  margin-top: 12px;
+  display:grid;
+  gap:12px;
+  flex:1;
+  min-height:0;
+  overflow:auto;
+  padding-bottom: 8px;
 
-    .groupCard{
-      position:relative;
-      border:1.5px solid #222;
-      border-radius:12px;
-      background:#fff;
-      padding:12px;
-      cursor:pointer;
-      min-height:120px;
-    }
+  align-content: start;
+  grid-auto-rows: max-content;
+}
+
+.groupCard{
+  position:relative;
+  border:1.5px solid #222;
+  border-radius:12px;
+  background:#fff;
+  padding:14px 14px 12px;
+  cursor:pointer;
+  min-height:auto;
+
+width: 100%;
+}
 
     .cardPin{
       position:absolute;
@@ -51,22 +56,6 @@
       border-radius:8px;
       background:#fff;
       cursor:pointer;
-    }
-
-    .lineA{
-      width:55%;
-      height:10px;
-      border-radius:999px;
-      background:#666;
-      margin-top:2px;
-    }
-
-    .lineB{
-      width:34%;
-      height:8px;
-      border-radius:999px;
-      background:#8d8d8d;
-      margin-top:8px;
     }
 
     .memberRow{
@@ -96,26 +85,6 @@
       object-fit:cover;
     }
 
-    .barRow{
-      margin-top:12px;
-      display:grid;
-      gap:7px;
-    }
-
-    .barX{
-      height:7px;
-      border-radius:999px;
-      background:#ddd;
-      overflow:hidden;
-    }
-
-    .barX > i{
-      display:block;
-      height:100%;
-      width:70%;
-      background:#666;
-      border-radius:999px;
-    }
 
     .cardMeta{
       margin-top:10px;

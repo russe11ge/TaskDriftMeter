@@ -36,29 +36,34 @@
       return;
     }
 
-    myGroups.forEach(g => {
+    myGroups.forEach((g) => {
       const card = document.createElement("div");
       card.className = "groupCard";
 
-      const members = (g.members || []);
+      const members = Array.isArray(g.members) ? g.members : [];
       const shown = members.slice(0, 3);
       const extra = Math.max(0, members.length - shown.length);
 
-      const memberHTML = shown.map(memberDotHTML).join("") +
+      const memberHTML =
+        shown.map(memberDotHTML).join("") +
         (extra > 0 ? `<div class="memberDot">+${extra}</div>` : "");
 
+      const groupName = g.name || "Untitled Group";
       const code = g.code || "(no code)";
-      card.innerHTML = `
-        <button class="cardPin" type="button" title="Copy Group Code"></button>
-        <div class="lineA"></div>
-        <div class="lineB"></div>
-        <div class="memberRow">${memberHTML}</div>
-        <div class="barRow">
-          <div class="barX"><i style="width:72%"></i></div>
-          <div class="barX"><i style="width:42%"></i></div>
-        </div>
-        <div class="cardMeta"><b style="color:#111;">${g.name}</b> · Code: ${code}</div>
-      `;
+
+card.innerHTML = `
+  <button class="cardPin" type="button" title="Copy Group Code"></button>
+
+  <div style="font-weight:900;font-size:16px;margin-bottom:6px;">
+    ${g.name}
+  </div>
+
+  <div class="memberRow">${memberHTML}</div>
+
+  <div class="cardMeta">
+    Code: <b style="color:#111;">${code}</b> · ${members.length} members
+  </div>
+`;
 
       card.addEventListener("click", () => {
         AppState.setCurrentGroupId(g.id);
@@ -81,7 +86,7 @@
 
   function ensureGroupThenGo(target) {
     const currentId = AppState.getCurrentGroupId();
-    const current = myGroups.find(g => g.id === currentId) || myGroups[0];
+    const current = myGroups.find((g) => g.id === currentId) || myGroups[0];
     if (!current) {
       alert("Please create or join a group first.");
       return;
