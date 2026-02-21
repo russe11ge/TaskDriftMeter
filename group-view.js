@@ -79,7 +79,7 @@
   }
 
   applyOverviewBanner();
-  renderDonut();
+  renderDonut();   // ✅ now by USER
   renderRecent();
 
   function applyOverviewBanner() {
@@ -96,6 +96,7 @@
     overviewBox.style.backgroundRepeat = "no-repeat";
   }
 
+  // ✅ Donut: one USER = one color
   function renderDonut() {
     if (!donutWrap) return;
 
@@ -105,16 +106,24 @@
       return;
     }
 
-    const byTask = new Map();
+    // group by memberId (fallback to memberName to avoid collapsing)
+    const byUser = new Map();
     for (const log of logs) {
-      const key = log.taskId || log.taskName || "task";
-      if (!byTask.has(key)) {
-        byTask.set(key, { name: log.taskName || "Task", minutes: 0 });
+      const memberId = (log.memberId && String(log.memberId)) || "";
+      const memberName = (log.memberName && String(log.memberName)) || "User";
+      const key = memberId || ("name:" + memberName);
+
+      if (!byUser.has(key)) {
+        byUser.set(key, {
+          id: memberId || key,
+          name: memberName,
+          minutes: 0
+        });
       }
-      byTask.get(key).minutes += Number(log.minutes || 0);
+      byUser.get(key).minutes += Number(log.minutes || 0);
     }
 
-    const segments = Array.from(byTask.values()).sort((a, b) => b.minutes - a.minutes);
+    const segments = Array.from(byUser.values()).sort((a, b) => b.minutes - a.minutes);
     const total = segments.reduce((s, x) => s + x.minutes, 0) || 1;
 
     const colors = ["#F0D35B", "#66AEEF", "#F46D6D", "#8FD38F", "#B9A3FF", "#F5A25D"];
