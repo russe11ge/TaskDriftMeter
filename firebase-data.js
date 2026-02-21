@@ -19,19 +19,46 @@ function makeCode() {
   return s;
 }
 
+/**
+ * ✅ 关键修复：
+ * 1) 每台设备生成一个稳定的 deviceId（存在 localStorage）
+ * 2) 如果 gwm_user.id 还是 "local-user"，就自动替换成 deviceId（避免跨设备冲突）
+ */
 function safeUserFromLocal() {
+  // 1) deviceId：每台设备唯一、持久
+  let deviceId = localStorage.getItem("gwm_device_id");
+  if (!deviceId) {
+    const rnd = crypto.getRandomValues(new Uint32Array(4)).join("-");
+    deviceId = "dev_" + rnd;
+    localStorage.setItem("gwm_device_id", deviceId);
+  }
+
+  // 2) 读 gwm_user
+  let u = {};
   try {
     const raw = localStorage.getItem("gwm_user");
-    const u = raw ? JSON.parse(raw) : {};
-    return {
-      id: u.id || "local-user",
-      username: u.username || "Guest",
-      email: u.email || "",
-      photoDataUrl: u.photoDataUrl || ""
-    };
+    u = raw ? JSON.parse(raw) : {};
   } catch {
-    return { id: "local-user", username: "Guest", email: "", photoDataUrl: "" };
+    u = {};
   }
+
+  const username = u.username || "Guest";
+  const email = u.email || "";
+  const photoDataUrl = u.photoDataUrl || "";
+
+  // 3) 如果 id 不存在 或 还是 local-user，就强制用 deviceId
+  const badId = !u.id || u.id === "local-user" || u.id === "local_user";
+  const id = badId ? deviceId : u.id;
+
+  // 4) 写回（保证后续所有地方都用这个新 id）
+  if (badId) {
+    localStorage.setItem(
+      "gwm_user",
+      JSON.stringify({ ...u, id, username, email, photoDataUrl })
+    );
+  }
+
+  return { id, username, email, photoDataUrl };
 }
 
 export async function fbCreateGroup({ name, description = "", invited = [], bannerDataUrl = "" }) {
@@ -74,15 +101,15 @@ export async function fbJoinGroup({ code, displayName = "" }) {
   const q = query(collection(db, "groups"), where("code", "==", code));
   const snap = await getDocs(q);
 
-  if (snap.empty) {
-    throw new Error("Group code not found");
-  }
+  if (snap.empty) throw new Error("Group code not found");
 
   const ref = snap.docs[0];
   const data = ref.data();
 
   const members = Array.isArray(data.members) ? [...data.members] : [];
-  const existingIndex = members.findIndex(m => (m.id && m.id === user.id) || (m.email && m.email === user.email));
+  const existingIndex = members.findIndex(
+    (m) => (m.id && m.id === user.id) || (m.email && m.email === user.email)
+  );
 
   const memberObj = {
     id: user.id,
@@ -102,10 +129,7 @@ export async function fbJoinGroup({ code, displayName = "" }) {
     updatedAtServer: serverTimestamp()
   });
 
-  return {
-    ...data,
-    members
-  };
+  return { ...data, members };
 }
 
 export async function fbGetGroupById(groupId) {
@@ -119,14 +143,15 @@ export async function fbGetMyGroups() {
   const snap = await getDocs(collection(db, "groups"));
   const all = snap.docs.map(d => d.data());
 
-  // 简单过滤：我创建的 或 我在members里
-  return all.filter(g => {
-    if (g.createdBy === user.id) return true;
-    const members = Array.isArray(g.members) ? g.members : [];
-    return members.some(m => (m.id && m.id === user.id) || (m.email && m.email === user.email));
-  }).sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
+  // ✅ 只返回：我创建的 或 我在 members 里
+  return all
+    .filter(g => {
+      if (g.createdBy === user.id) return true;
+      const members = Array.isArray(g.members) ? g.members : [];
+      return members.some(m => (m.id && m.id === user.id) || (m.email && m.email === user.email));
+    })
+    .sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
 }
-
 
 export async function fbToggleTaskComplete(groupId, taskId) {
   const snap = await getDoc(doc(db, "groups", groupId));
@@ -195,6 +220,7 @@ export async function fbAppendWorkLog(groupId, logInput) {
   return { ...g, workItems, workLogs };
 }
 
+/** ✅ 删除 group：dashboard.js 里的 delete 按钮就靠它 */
 export async function fbDeleteGroup(groupId) {
   if (!groupId) throw new Error("Missing groupId");
   await deleteDoc(doc(db, "groups", groupId));
