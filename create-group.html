@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Create Group</title>
+  <link rel="stylesheet" href="./style.css" />
+  <style>
+    .pageTitleFigma{ top:8px; left:8px; }
+
+    .wrap{
+      margin-top:6px;
+      height: calc(100% - 38px);
+      display:flex;
+      flex-direction:column;
+    }
+
+    .headerRow{
+      display:grid;
+      grid-template-columns: 28px 1fr 28px;
+      gap:8px;
+      align-items:center;
+    }
+
+    .ghostBtn{
+      width:28px;height:28px;border:1.5px solid #222;border-radius:8px;background:#fff;cursor:pointer;
+    }
+
+    .headerTitle{
+      text-align:center;
+      font-weight:800;
+      font-size:13px;
+    }
+
+    .body{
+      margin-top:8px;
+      flex:1;
+      overflow:auto;
+      padding-bottom:12px;
+    }
+
+    .bannerBox{
+      width:100%;
+      height:140px;
+      border:1.5px solid #222;
+      border-radius:12px;
+      background:#f3f3f3;
+      display:grid;
+      place-items:center;
+      color:#c7c7c7;
+      font-weight:800;
+      cursor:pointer;
+      overflow:hidden;
+      text-align:center;
+      padding:8px;
+    }
+
+    .bannerBox img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    .inviteRow{
+      display:flex;
+      gap:8px;
+      margin-top:8px;
+    }
+
+    .chips{
+      margin-top:10px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+    }
+
+    .chip{
+      height:30px;
+      padding:0 12px;
+      border:1.5px solid #222;
+      border-radius:999px;
+      background:#fff;
+      display:flex;
+      align-items:center;
+      font-size:12px;
+      font-weight:700;
+      gap:6px;
+    }
+
+    .chip button{
+      border:none;
+      background:transparent;
+      cursor:pointer;
+      font-weight:900;
+      font-size:12px;
+      line-height:1;
+      padding:0;
+    }
+
+    .msg{
+      margin-top:8px;
+      font-size:11px;
+      min-height:14px;
+      color:#b00020;
+    }
+  </style>
+</head>
+<body>
+  <div class="centerWrap">
+    <div class="phone">
+
+      <div class="wrap">
+        <div class="statusbar">
+          <div>9:41</div>
+          <div>📶 WiFi 🔋</div>
+        </div>
+
+        <div class="headerRow">
+          <button id="btnBack" class="ghostBtn" type="button"></button>
+          <div class="headerTitle">New Group</div>
+          <div id="btnProfile" class="topIconAvatar"></div>
+        </div>
+
+        <div class="hr"></div>
+
+        <div class="body">
+          <div class="sectionLabel">BANNER</div>
+          <button id="bannerBox" class="bannerBox" type="button">Upload banner</button>
+          <input id="bannerInput" type="file" accept="image/*" capture="environment" style="display:none;">
+
+          <div class="sectionLabel" style="margin-top:12px;">GROUP DETAILS</div>
+          <input id="groupName" class="input" placeholder="Group Name">
+          <div style="height:8px;"></div>
+          <textarea id="groupDesc" class="textarea" placeholder="Description (optional)"></textarea>
+
+          <div class="sectionLabel" style="margin-top:12px;">INVITE MEMBERS</div>
+          <input id="memberInput" class="input" placeholder="User ID or Email">
+          <div style="height:8px;"></div>
+          <button id="btnAddMember" class="btn btnLight" type="button">+ Add Member</button>
+
+          <div id="chips" class="chips"></div>
+
+          <div style="height:10px;"></div>
+          <button id="btnCreateGroup" class="btn btnDark" type="button">Create Group</button>
+          <div id="msg" class="msg"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="./state.js"></script>
+  <script src="./create-group.js"></script>
+</body>
+</html>

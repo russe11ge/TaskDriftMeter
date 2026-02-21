@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sign In</title>
+  <link rel="stylesheet" href="./style.css" />
+  <style>
+    .pageTitleFigma{ top:8px; left:8px; }
+
+    .wrap{
+      margin-top:6px;
+      height: calc(100% - 38px);
+      display:flex;
+      flex-direction:column;
+    }
+
+    .headArea{
+      text-align:center;
+      margin-top:10px;
+    }
+
+    .title{
+      font-size:22px;
+      font-weight:900;
+      line-height:1.1;
+      margin-top:8px;
+    }
+
+    .sub{
+      margin-top:6px;
+      font-size:12px;
+      color:#777;
+      line-height:1.4;
+    }
+
+    .formArea{
+      margin-top:18px;
+      display:grid;
+      gap:10px;
+    }
+
+    .demoNote{
+      margin-top:10px;
+      font-size:11px;
+      color:#999;
+      text-align:center;
+      line-height:1.4;
+    }
+
+    .footerLinks{
+      margin-top:auto;
+      padding-bottom:8px;
+      text-align:center;
+      font-size:12px;
+      color:#666;
+    }
+
+    .footerLinks button{
+      border:none;
+      background:none;
+      text-decoration:underline;
+      color:#666;
+      cursor:pointer;
+      font-size:12px;
+      padding:0;
+    }
+
+    .ghostTop{
+      width:28px;height:28px;border:1.5px solid #222;border-radius:8px;background:#fff;cursor:pointer;
+    }
+
+    .headerRow{
+      display:grid;
+      grid-template-columns: 28px 1fr 28px;
+      gap:8px;
+      align-items:center;
+    }
+
+    .headerTitle{
+      text-align:center;
+      font-size:13px;
+      font-weight:800;
+    }
+  </style>
+</head>
+<body>
+  <div class="centerWrap">
+    <div class="phone">
+
+      <div class="wrap">
+        <div class="statusbar">
+          <div>9:41</div>
+          <div>📶 WiFi 🔋</div>
+        </div>
+
+        <div class="headerRow">
+          <button id="btnBack" class="ghostTop" type="button"></button>
+          <div class="headerTitle">Sign In</div>
+          <button id="btnSkip" class="ghostTop" type="button" title="Skip"></button>
+        </div>
+
+        <div class="hr"></div>
+
+        <div class="headArea">
+          <div class="title">Welcome back</div>
+          <div class="sub">Demo sign-in screen (fake for prototype)</div>
+        </div>
+
+        <div class="formArea">
+          <input id="emailInput" class="input" placeholder="Email">
+          <input id="nameInput" class="input" placeholder="Name (optional)">
+          <button id="btnSignIn" class="btn btnDark" type="button">Sign In</button>
+          <button id="btnToSignUp" class="btn btnLight" type="button">Sign Up</button>
+        </div>
+
+        <div class="demoNote">
+          This is a demo flow for now.<br>
+          It will save a local user profile.
+        </div>
+
+        <div class="footerLinks">
+          <button id="btnDirectDashboard" type="button">skip to dashboard</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="./state.js"></script>
+  <script>
+    const btnBack = document.getElementById("btnBack");
+    const btnSkip = document.getElementById("btnSkip");
+    const btnSignIn = document.getElementById("btnSignIn");
+    const btnToSignUp = document.getElementById("btnToSignUp");
+    const btnDirectDashboard = document.getElementById("btnDirectDashboard");
+
+    const emailInput = document.getElementById("emailInput");
+    const nameInput = document.getElementById("nameInput");
+
+    function doFakeSignIn() {
+      const email = emailInput.value.trim();
+      const username = nameInput.value.trim();
+
+      AppState.saveUser({
+        email: email || "",
+        username: username || AppState.loadUser().username || "Guest"
+      });
+      AppState.updateCurrentUserInAllGroups();
+      location.href = "./dashboard.html";
+    }
+
+    btnBack.onclick = () => (location.href = "./index.html");
+    btnSkip.onclick = () => (location.href = "./dashboard.html");
+    btnDirectDashboard.onclick = () => (location.href = "./dashboard.html");
+    btnToSignUp.onclick = () => (location.href = "./signup.html");
+    btnSignIn.onclick = doFakeSignIn;
+
+    emailInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") doFakeSignIn();
+    });
+    nameInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") doFakeSignIn();
+    });
+  </script>
+</body>
+</html>

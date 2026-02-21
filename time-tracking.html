@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Time Tracking</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: #f3f3f3;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 24px;
+      color: #111;
+    }
+
+    .phone {
+      width: 360px;
+      min-height: 760px;
+      background: #fff;
+      border-radius: 32px;
+      border: 1px solid #e8e8e8;
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.02) inset;
+      padding: 14px 14px 18px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .status {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 700;
+      font-size: 14px;
+      padding: 2px 2px 8px;
+    }
+
+    .topbar {
+      display: grid;
+      grid-template-columns: 28px 1fr 28px;
+      align-items: center;
+      gap: 10px;
+      padding: 2px 0 10px;
+      border-bottom: 1px solid #e5e5e5;
+    }
+
+    .topIconBtn {
+      width: 28px;
+      height: 28px;
+      border: 1.8px solid #222;
+      border-radius: 9px;
+      background: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 0;
+    }
+
+    .topIconBtn img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .title {
+      text-align: center;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .card {
+      border: 2px solid #222;
+      border-radius: 10px;
+      background: #fff;
+    }
+
+    .totalCard {
+      margin-top: 12px;
+      padding: 18px 12px 16px;
+      text-align: center;
+    }
+
+    .mutedLabel {
+      font-size: 10px;
+      color: #bbb;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .totalValue {
+      font-weight: 800;
+      font-size: 28px;
+      line-height: 1;
+      margin-top: 2px;
+    }
+
+    .sectionTitle {
+      margin-top: 12px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #111;
+    }
+
+    .chartWrap {
+      margin-top: 12px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 130px;
+    }
+
+    /* 清晰彩色圆环 */
+    /* Crisp colored donut */
+    .donut {
+      width: 92px;
+      height: 92px;
+      border-radius: 50%;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06);
+    }
+
+    .donutInner {
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      background: #fff;
+      border: 1.5px solid #ddd;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      line-height: 1.05;
+      text-align: center;
+    }
+
+    .donutInner .small {
+      font-size: 8px;
+      color: #b6b6b6;
+      font-weight: 700;
+    }
+
+    .donutInner .big {
+      font-size: 12px;
+      font-weight: 800;
+      margin-top: 2px;
+    }
+
+    .breakdownCard {
+      margin-top: 12px;
+      padding: 10px 10px 12px;
+      min-height: 190px;
+    }
+
+    .taskList {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .taskRow {
+      border-bottom: 1px solid #efefef;
+      padding-bottom: 6px;
+    }
+
+    .taskRow:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .taskRowTop {
+      display: grid;
+      grid-template-columns: 16px 1fr auto;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .taskCheck {
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+      border: 1.5px solid #666;
+      background: #fff;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .taskCheck.checked {
+      background: #666;
+      border-color: #666;
+    }
+
+    .taskName {
+      font-size: 10px;
+      color: #666;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .taskTime {
+      font-size: 10px;
+      color: #b3b3b3;
+      min-width: 36px;
+      text-align: right;
+    }
+
+    .taskBarTrack {
+      height: 8px;
+      border-radius: 999px;
+      background: #ededed;
+      overflow: hidden;
+      margin-left: 24px;
+    }
+
+    .taskBarFill {
+      height: 100%;
+      border-radius: 999px;
+      width: 0%;
+      transition: width 0.2s ease;
+    }
+
+    .emptyText {
+      font-size: 11px;
+      color: #999;
+      text-align: center;
+      padding: 28px 8px;
+    }
+
+    .bottomNav {
+      position: absolute;
+      left: 14px;
+      right: 14px;
+      bottom: 12px;
+      height: 48px;
+      border-top: 1px solid #e8e8e8;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2px;
+      background: #fff;
+    }
+
+    .navDot {
+      width: 26px;
+      height: 26px;
+      border-radius: 8px;
+      border: 1.8px solid #222;
+      background: #fff;
+      cursor: pointer;
+    }
+
+.navDot{
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 16px;
+}
+
+.navDot.active{
+  background-color:#666;
+  border-color:#666;
+}
+
+#navGroupView{ background-image: url("./icons/home.png"); }
+#navDashboard{ background-image: url("./icons/search.png"); }
+#navTime{ background-image: url("./icons/user.png"); }
+    
+  </style>
+</head>
+<body>
+  <div class="phone">
+    <div class="status">
+      <span>9:41</span>
+      <span>📶 WiFi 🔋</span>
+    </div>
+
+    <div class="topbar">
+      <button id="topLeftBtn" class="topIconBtn" aria-label="Back"></button>
+      <div class="title">Your Time</div>
+      <button id="topRightBtn" class="topIconBtn" aria-label="Profile"></button>
+    </div>
+
+    <div class="card totalCard">
+      <div class="mutedLabel">Total Time</div>
+      <div id="totalTimeValue" class="totalValue">0m</div>
+    </div>
+
+    <div class="sectionTitle">Breakdown</div>
+
+    <div class="chartWrap">
+      <div id="donutChart" class="donut">
+        <div class="donutInner">
+          <div class="small">All Tasks</div>
+          <div class="big">100%</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card breakdownCard">
+      <div id="taskList" class="taskList"></div>
+    </div>
+
+    <div class="bottomNav">
+      <button id="navGroupView" class="navDot" aria-label="Group View"></button>
+      <button id="navDashboard" class="navDot" aria-label="Dashboard"></button>
+      <button id="navTime" class="navDot active" aria-label="Time Tracking"></button>
+    </div>
+  </div>
+
+  <script src="./state.js"></script>
+  <script src="./time-tracking.js"></script>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Welcome</title>
+  <link rel="stylesheet" href="./style.css" />
+  <style>
+    .pageTitleFigma{ top:8px; left:8px; }
+
+    .wrap{
+      margin-top:6px;
+      height: calc(100% - 38px);
+      display:flex;
+      flex-direction:column;
+    }
+
+    .hero{
+      flex:1;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      text-align:center;
+      padding:0 20px;
+      gap:16px;
+    }
+
+    .logoCircle{
+      width:120px;
+      height:120px;
+      border-radius:999px;
+      background:#fff;
+      border:1.5px solid #222;
+      display:grid;
+      place-items:center;
+      font-size:14px;
+      font-weight:900;
+      line-height:1.1;
+    }
+
+    .heroTitle{
+      font-size:22px;
+      font-weight:900;
+      line-height:1.15;
+    }
+
+    .heroSub{
+      font-size:12px;
+      color:#777;
+      line-height:1.45;
+      max-width:260px;
+    }
+
+    .bottomBtns{
+      padding-bottom:10px;
+    }
+
+    .skipTop{
+      position:absolute;
+      right:16px;
+      top:42px;
+      font-size:12px;
+      color:#888;
+      text-decoration:underline;
+      cursor:pointer;
+      background:none;
+      border:none;
+      padding:0;
+    }
+  </style>
+</head>
+<body>
+  <div class="centerWrap">
+    <div class="phone">
+
+      <div class="statusbar">
+        <div>9:41</div>
+        <div>📶 WiFi 🔋</div>
+      </div>
+
+      <button id="btnSkip" class="skipTop" type="button">skip</button>
+
+      <div class="wrap">
+        <div class="hero">
+          <div class="logoCircle">GROUP<br>WORK<br>METER</div>
+          <div class="heroTitle">Track the work.<br>See the effort.</div>
+          <div class="heroSub">
+          </div>
+        </div>
+
+        <div class="bottomBtns">
+          <button id="btnGetStarted" class="btn btnDark" type="button">Get Started</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="./state.js"></script>
+  <script>
+    document.getElementById("btnGetStarted").onclick = () => {
+      location.href = "./signin.html";
+    };
+
+    document.getElementById("btnSkip").onclick = () => {
+      location.href = "./dashboard.html";
+    };
+  </script>
+</body>
+</html>

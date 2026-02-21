@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sign Up</title>
+  <link rel="stylesheet" href="./style.css" />
+  <style>
+    .pageTitleFigma{ top:8px; left:8px; }
+
+    .wrap{
+      margin-top:6px;
+      height: calc(100% - 38px);
+      display:flex;
+      flex-direction:column;
+    }
+
+    .headerRow{
+      display:grid;
+      grid-template-columns: 28px 1fr 28px;
+      gap:8px;
+      align-items:center;
+    }
+
+    .ghostTop{
+      width:28px;height:28px;border:1.5px solid #222;border-radius:8px;background:#fff;cursor:pointer;
+    }
+
+    .headerTitle{
+      text-align:center;
+      font-size:13px;
+      font-weight:800;
+    }
+
+    .title{
+      margin-top:14px;
+      text-align:center;
+      font-size:22px;
+      font-weight:900;
+      line-height:1.1;
+    }
+
+    .sub{
+      margin-top:6px;
+      text-align:center;
+      font-size:12px;
+      color:#777;
+      line-height:1.4;
+    }
+
+    .formArea{
+      margin-top:18px;
+      display:grid;
+      gap:10px;
+    }
+
+    .msg{
+      margin-top:6px;
+      min-height:14px;
+      font-size:11px;
+      color:#b00020;
+      text-align:center;
+    }
+
+    .footerLinks{
+      margin-top:auto;
+      padding-bottom:8px;
+      text-align:center;
+      font-size:12px;
+      color:#666;
+    }
+
+    .footerLinks button{
+      border:none;
+      background:none;
+      text-decoration:underline;
+      color:#666;
+      cursor:pointer;
+      font-size:12px;
+      padding:0;
+    }
+  </style>
+</head>
+<body>
+  <div class="centerWrap">
+    <div class="phone">
+
+      <div class="wrap">
+        <div class="statusbar">
+          <div>9:41</div>
+          <div>📶 WiFi 🔋</div>
+        </div>
+
+        <div class="headerRow">
+          <button id="btnBack" class="ghostTop" type="button"></button>
+          <div class="headerTitle">Sign Up</div>
+          <button id="btnSkip" class="ghostTop" type="button" title="Skip"></button>
+        </div>
+
+        <div class="hr"></div>
+
+        <div class="title">Create account</div>
+        <div class="sub">Demo sign-up screen (fake for prototype)</div>
+
+        <div class="formArea">
+          <input id="emailInput" class="input" placeholder="Email / Phone">
+          <input id="passInput" class="input" type="password" placeholder="Set Password">
+          <input id="pass2Input" class="input" type="password" placeholder="Re-Enter Password">
+          <input id="nameInput" class="input" placeholder="User Name">
+          <button id="btnSignUp" class="btn btnDark" type="button">Sign Up</button>
+          <button id="btnToSignIn" class="btn btnLight" type="button">Already have account? Sign In</button>
+        </div>
+
+        <div id="msg" class="msg"></div>
+
+        <div class="footerLinks">
+          <button id="btnDirectDashboard" type="button">skip to dashboard</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="./state.js"></script>
+  <script>
+    const btnBack = document.getElementById("btnBack");
+    const btnSkip = document.getElementById("btnSkip");
+    const btnSignUp = document.getElementById("btnSignUp");
+    const btnToSignIn = document.getElementById("btnToSignIn");
+    const btnDirectDashboard = document.getElementById("btnDirectDashboard");
+
+    const emailInput = document.getElementById("emailInput");
+    const passInput = document.getElementById("passInput");
+    const pass2Input = document.getElementById("pass2Input");
+    const nameInput = document.getElementById("nameInput");
+    const msg = document.getElementById("msg");
+
+    function doFakeSignUp() {
+      msg.textContent = "";
+      const email = emailInput.value.trim();
+      const pass = passInput.value.trim();
+      const pass2 = pass2Input.value.trim();
+      const username = nameInput.value.trim();
+
+      if (!email) {
+        msg.textContent = "Please enter email.";
+        return;
+      }
+      if (!pass) {
+        msg.textContent = "Please enter password.";
+        return;
+      }
+      if (pass !== pass2) {
+        msg.textContent = "Passwords do not match.";
+        return;
+      }
+
+      AppState.saveUser({
+        email,
+        username: username || "Guest"
+      });
+      AppState.updateCurrentUserInAllGroups();
+      location.href = "./dashboard.html";
+    }
+
+    btnBack.onclick = () => (location.href = "./signin.html");
+    btnSkip.onclick = () => (location.href = "./dashboard.html");
+    btnDirectDashboard.onclick = () => (location.href = "./dashboard.html");
+    btnToSignIn.onclick = () => (location.href = "./signin.html");
+    btnSignUp.onclick = doFakeSignUp;
+  </script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Join Group</title>
+  <link rel="stylesheet" href="./style.css" />
+  <style>
+    .pageTitleFigma{ top:8px; left:8px; }
+
+    .wrap{
+      margin-top:6px;
+      height: calc(100% - 38px);
+      display:flex;
+      flex-direction:column;
+    }
+
+    .headerRow{
+      display:grid;
+      grid-template-columns: 28px 1fr 28px;
+      gap:8px;
+      align-items:center;
+    }
+
+    .ghostBtn{
+      width:28px;height:28px;border:1.5px solid #222;border-radius:8px;background:#fff;cursor:pointer;
+    }
+
+    .headerTitle{
+      text-align:center;
+      font-weight:800;
+      font-size:13px;
+    }
+
+    .body{
+      flex:1;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      padding:0 6px 36px;
+    }
+
+    .blockTitle{
+      font-size:16px;
+      font-weight:900;
+      margin-bottom:14px;
+    }
+
+    .msg{
+      margin-top:8px;
+      font-size:11px;
+      min-height:14px;
+      color:#b00020;
+    }
+  </style>
+</head>
+<body>
+  <div class="centerWrap">
+    <div class="phone">
+
+      <div class="wrap">
+        <div class="statusbar">
+          <div>9:41</div>
+          <div>📶 WiFi 🔋</div>
+        </div>
+
+        <div class="headerRow">
+          <button id="btnBack" class="ghostBtn" type="button"></button>
+          <div class="headerTitle">New Group</div>
+          <div id="btnProfile" class="topIconAvatar"></div>
+        </div>
+
+        <div class="hr"></div>
+
+        <div class="body">
+          <div class="blockTitle">Join Group</div>
+          <input id="groupCode" class="input" placeholder="Group Code">
+          <div style="height:10px;"></div>
+          <input id="displayName" class="input" placeholder="Name">
+          <div style="height:14px;"></div>
+          <button id="btnJoinGroup" class="btn btnLight" type="button">Join Group</button>
+          <div id="msg" class="msg"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="./state.js"></script>
+  <script src="./join-group.js"></script>
+</body>
+</html>

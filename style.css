@@ -1,0 +1,194 @@
+:root{
+  --bg: #efefef;
+  --phone: #f7f7f7;
+  --text: #111;
+  --muted: #b8b8b8;
+  --line: #e8e8e8;
+  --dark: #666;
+  --lightBtn: #d9d9d9;
+  --border: #222;
+}
+
+*{ box-sizing: border-box; }
+html,body{
+  margin:0;
+  padding:0;
+  background: var(--bg);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  color: var(--text);
+}
+
+.centerWrap{
+  min-height:100vh;
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  padding:18px 10px;
+}
+
+.phone{
+  width: 360px;
+  height: 780px;
+  background: var(--phone);
+  border-radius: 34px;
+  padding: 14px 14px 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.statusbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:12px;
+  font-weight:700;
+  margin-bottom: 12px;
+}
+
+.topRow{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+}
+
+.topIconAvatar{
+  width:28px;
+  height:28px;
+  border:1.5px solid var(--border);
+  border-radius:8px;
+  background:#fff;
+  display:grid;
+  place-items:center;
+  overflow:hidden;
+  font-weight:800;
+  font-size:11px;
+  cursor:pointer;
+}
+
+.topIconAvatar img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.btn{
+  width:100%;
+  height:46px;
+  border:none;
+  border-radius:16px;
+  font-size:16px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.btnDark{
+  background: var(--dark);
+  color:#fff;
+}
+
+.btnLight{
+  background: #d2d2d2;
+  color:#111;
+}
+
+.btnGhost{
+  background: #fff;
+  color:#111;
+  border:1.5px solid var(--border);
+}
+
+.muted{
+  color: var(--muted);
+}
+
+.small{
+  font-size: 12px;
+}
+
+.input{
+  width:100%;
+  height:42px;
+  border:1.5px solid var(--border);
+  border-radius:10px;
+  background:#fff;
+  padding:0 12px;
+  font-size:14px;
+  outline:none;
+}
+
+.input::placeholder{
+  color:#c7c7c7;
+}
+
+.textarea{
+  width:100%;
+  min-height:76px;
+  border:1.5px solid var(--border);
+  border-radius:10px;
+  background:#fff;
+  padding:10px 12px;
+  font-size:14px;
+  resize:none;
+  outline:none;
+}
+
+.sectionLabel{
+  font-size:10px;
+  font-weight:800;
+  color:#777;
+  margin: 6px 0 6px;
+  letter-spacing: .02em;
+}
+
+.hr{
+  height:1px;
+  background: var(--line);
+  margin:8px 0 12px;
+}
+
+.tabBar{
+  position:absolute;
+  left:14px;
+  right:14px;
+  bottom:10px;
+  z-index:20;
+  border-top:1px solid var(--line);
+  padding-top:10px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background: var(--phone);
+}
+
+.tabBtn{
+  width:24px;
+  height:24px;
+  border:1.5px solid var(--border);
+  border-radius:7px;
+  background:#fff;
+  cursor:pointer;
+}
+
+.tabBtn.active{
+  background-color: var(--dark);
+  border-color: var(--dark);
+}
+
+.tabBar .tabBtn{
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 16px;
+}
+
+.tabBar .tabBtn[title="Group View"]{
+  background-image: url("./icons/home.png");
+}
+
+.tabBar .tabBtn[title="Dashboard"]{
+  background-image: url("./icons/search.png");
+}
+
+.tabBar .tabBtn[title="Time Tracking"]{
+  background-image: url("./icons/user.png");
+}
