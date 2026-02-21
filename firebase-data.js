@@ -6,6 +6,7 @@ import {
   getDocs,
   setDoc,
   updateDoc,
+  deleteDoc,
   query,
   where,
   serverTimestamp
@@ -43,7 +44,7 @@ export async function fbCreateGroup({ name, description = "", invited = [], bann
     code,
     name,
     description,
-    bannerDataUrl, // demo阶段先直接存（会比较大，正式版建议用 Storage）
+    bannerDataUrl,
     members: [{
       id: user.id,
       username: user.username,
@@ -192,4 +193,10 @@ export async function fbAppendWorkLog(groupId, logInput) {
   });
 
   return { ...g, workItems, workLogs };
+}
+
+export async function fbDeleteGroup(groupId) {
+  if (!groupId) throw new Error("Missing groupId");
+  await deleteDoc(doc(db, "groups", groupId));
+  return true;
 }

@@ -46,17 +46,19 @@
 width: 100%;
 }
 
-    .cardPin{
-      position:absolute;
-      right:10px;
-      top:10px;
-      width:26px;
-      height:26px;
-      border:1.5px solid #222;
-      border-radius:8px;
-      background:#fff;
-      cursor:pointer;
-    }
+.cardPin{
+  position:absolute;
+  right:10px;
+  top:10px;
+  width:26px;
+  height:26px;
+  border:1.5px solid #222;
+  border-radius:8px;
+  cursor:pointer;
+
+  background:#fff url("./icons/cross.png") no-repeat center;
+  background-size:14px;
+}
 
     .memberRow{
       margin-top:12px;
@@ -140,6 +142,6 @@ width: 100%;
   </div>
 
   <script src="./state.js"></script>
-  <script src="./dashboard.js"></script>
+<script type="module" src="./dashboard.js"></script>
 </body>
 </html>
